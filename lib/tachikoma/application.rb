@@ -58,6 +58,8 @@ module Tachikoma
       @pull_request_base = @configure['pull_request_base']
       @pull_request_head = "#{@target_head}:tachikoma/update-#{@readable_time}"
       @pull_request_title = "Exec tachikoma update #{@readable_time}"
+
+      @project_directory = @configure['project_directory']
     end
 
     def clean
@@ -76,7 +78,7 @@ module Tachikoma
     end
 
     def bundler
-      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}") do
+      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}/#{@project_directory}") do
         Bundler.with_clean_env do
           sh(*['ruby', '-i', '-pe', '$_.gsub! /^ruby/, "#ruby"', 'Gemfile'])
           sh(*['git', 'config', 'user.name', @commiter_name])
@@ -125,7 +127,7 @@ module Tachikoma
     end
 
     def carton
-      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}") do
+      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}/#{@project_directory}") do
         sh(*['git', 'config', 'user.name', @commiter_name])
         sh(*['git', 'config', 'user.email', @commiter_email])
         sh(*['git', 'checkout', '-b', "tachikoma/update-#{@readable_time}", @base_remote_branch])
@@ -141,7 +143,7 @@ module Tachikoma
     end
 
     def none
-      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}") do
+      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}/#{@project_directory}") do
         sh(*['git', 'config', 'user.name', @commiter_name])
         sh(*['git', 'config', 'user.email', @commiter_email])
         sh(*['git', 'checkout', '-b', "tachikoma/update-#{@readable_time}", @base_remote_branch])
@@ -153,7 +155,7 @@ module Tachikoma
     end
 
     def david
-      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}") do
+      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}/#{@project_directory}") do
         sh(*['git', 'config', 'user.name', @commiter_name])
         sh(*['git', 'config', 'user.email', @commiter_email])
         sh(*['git', 'checkout', '-b', "tachikoma/update-#{@readable_time}", @base_remote_branch])
@@ -175,7 +177,7 @@ module Tachikoma
     end
 
     def composer
-      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}") do
+      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}/#{@project_directory}") do
         sh(*['git', 'config', 'user.name', @commiter_name])
         sh(*['git', 'config', 'user.email', @commiter_email])
         sh(*['git', 'checkout', '-b', "tachikoma/update-#{@readable_time}", @base_remote_branch])
@@ -192,7 +194,7 @@ module Tachikoma
     end
 
     def cocoapods
-      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}") do
+      Dir.chdir("#{Tachikoma.repos_path}/#{@build_for}/#{@project_directory}") do
         sh(*['git', 'config', 'user.name', @commiter_name])
         sh(*['git', 'config', 'user.email', @commiter_email])
         sh(*['git', 'checkout', '-b', "tachikoma/update-#{@readable_time}", @base_remote_branch])
